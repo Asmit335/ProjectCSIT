@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import path from 'path'
 dotenv.config();
 
-
+const port = process.env.PORT || 3000
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -17,6 +17,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use(cors())
 app.use(UserRouter);
+
 
 
 
@@ -42,8 +43,8 @@ mongoose.connect(process.env.MONGODB_URI, {
         console.error('Error connecting to MongoDB:', error);
     });
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on PORT NUMBER ${process.env.PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on PORT NUMBER ${port}`);
 });
 
 // hosting in render process
