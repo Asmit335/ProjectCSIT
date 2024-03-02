@@ -54,7 +54,11 @@ const __filename = fileURLToPath(
 const __dirname = dirname(__filename);
 
 // Serve static files from the 'dist' directory
-app.use(express.static(path.join(__dirname, 'dist')));
+
+if (process.env.NODE_ENV === "production") {
+
+    app.use(express.static(path.join(__dirname, 'dist')));
+}
 
 // Route all requests to the index.html file
 app.get('/*', (req, res) => {
