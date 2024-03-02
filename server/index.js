@@ -4,7 +4,7 @@ import { UserRouter } from './routes/user.js';
 import mongoose from 'mongoose'; // Import mongoose
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-
+import path from 'path'
 dotenv.config();
 
 const app = express();
@@ -43,4 +43,20 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on PORT NUMBER ${process.env.PORT}`);
+});
+
+// hosting in render process
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(
+    import.meta.url);
+const __dirname = dirname(__filename);
+
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Route all requests to the index.html file
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
