@@ -9,11 +9,8 @@ const Home = () => {
     <>
       <div className="mt-5">
         <Navbar />
-        <div className="flex justify-center items-center">
-          <img
-            src="https://easymartak.netlify.app/images/landingPic.png"
-            alt="homeLoading"
-          />
+        <div className="flex justify-center items-center m-24">
+          <img src="./images/landingPic.jpeg" alt="homeLoading" />
         </div>
         <FeaturedProduct />
         <Services />

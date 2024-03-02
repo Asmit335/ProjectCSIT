@@ -1,16 +1,18 @@
-import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute"; // Import your ProtectedRoute component
+const express = require("express");
+const path = require("path");
 
-const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      {/* Use ProtectedRoute like a regular Route */}
-      <ProtectedRoute path="/dashboard" element={<Dashboard />} />
-      <ProtectedRoute path="/admin" element={<Admin />} />
-    </Routes>
-  );
-};
+const app = express();
 
-export default App;
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, "dist")));
+
+// Route all requests to the index.html file
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

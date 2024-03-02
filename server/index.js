@@ -6,6 +6,8 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import path from 'path'
 dotenv.config();
+import axios from "axios"
+
 
 const port = process.env.PORT || 3000
 const app = express();
@@ -50,6 +52,7 @@ app.listen(port, () => {
 // hosting in render process
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { log } from 'console';
 
 const __filename = fileURLToPath(
     import.meta.url);
@@ -65,4 +68,29 @@ if (process.env.NODE_ENV === "production") {
 // Route all requests to the index.html file
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+//khalti payment
+
+app.post('/khalti', async(req, res) => {
+    try {
+        const payload = req.body;
+        const khaltiResponse = await axios.post("https://a.khalti.com/api/v2/epayment/initiate/", payload, {
+            headers: {
+                Authorization: `Key ${process.env.KHALTI_KEY}`
+            }
+        });
+
+        // Handle the response from Khalti API
+        console.log(khaltiResponse.data);
+        res.json({
+            success: true,
+            data: khaltiResponse.data
+        });
+
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error:", error);
+        res.status(500).json({ error: 'An error occurred while communicating with Khalti API' });
+    }
 });
