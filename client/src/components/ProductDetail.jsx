@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState, useDispatch } from "react";
 import { useParams } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -9,7 +8,6 @@ import Footer from "./Footer";
 import { toast } from "react-toastify";
 
 const ProductDetail = () => {
-  const history = useHistory();
   const { id } = useParams();
 
   const [product, setProduct] = useState({});
@@ -50,7 +48,7 @@ const ProductDetail = () => {
         JSON.stringify([...cart, { ...product, quantity: 1 }])
       );
     }
-    // alert("Product added to cart");
+
     // Show success toast
     toast.success("Added to Cart Successfuliy");
     if (redirect) {
@@ -60,25 +58,23 @@ const ProductDetail = () => {
 
   // Handler for buying now
   const handleBuyNow = () => {
-    toast.success("buy now");
-    // history.push("/buynow");
+    console.log("Clicked buy button");
+
+    const payload = {
+      return_url: "http://localhost:5173/success",
+      website_url: "http://localhost:5173",
+      amount: product.price * 100,
+      purchase_order_id: product.id,
+      purchase_order_name: product.title,
+      customer_info: {
+        name: "Customer",
+        email: "test@gmail.com",
+        phone: "9800000000",
+      },
+    };
+
+    // Now you can use the payload as needed, such as sending it to an API endpoint for payment processing
   };
-  // const context = useContext(CartContext);
-  // const { products } = context;
-
-  // const dispatch = useDispatch();
-  // const cartItems = useSelector((state) => state.cart);
-  // // console.log(cartItems)
-
-  // // add to cart
-  // const addCart = (product) => {
-  //   dispatch(addToCart(product));
-  //   toast.success("add to cart");
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem("cart", JSON.stringify(cartItems));
-  // }, [cartItems]);
 
   return (
     <>

@@ -104,7 +104,10 @@ const Product = () => {
                     {product.title.substring(0, 15)}
                   </h2>
                   <p className="mt-1 font-bold text-black">${product.price}</p>
-                  <button className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+                  <button
+                    className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    onClick={() => console.log("clicked the buy btn")}
+                  >
                     Buy Now
                   </button>
                 </div>

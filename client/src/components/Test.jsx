@@ -1,18 +1,22 @@
-const express = require("express");
-const path = require("path");
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const app = express();
+const Navbar = ({ menuItems }) => {
+  return (
+    <ul className="ml-12 inline-flex space-x-8">
+      {menuItems.map((item) => (
+        <li key={item.name}>
+          <Link
+            to={item.href}
+            className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
+          >
+            {item.name}
+            <span></span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-// Serve static files from the 'dist' directory
-app.use(express.static(path.join(__dirname, "dist")));
-
-// Route all requests to the index.html file
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default Navbar;

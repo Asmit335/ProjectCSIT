@@ -7,9 +7,9 @@ import cookieParser from "cookie-parser";
 import path from 'path'
 dotenv.config();
 import axios from "axios"
+import multer from 'multer'
 
-
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 const app = express();
 app.use(express.json());
 app.use(cors({
@@ -53,6 +53,7 @@ app.listen(port, () => {
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { log } from 'console';
+import Product from './models/Product.js';
 
 const __filename = fileURLToPath(
     import.meta.url);
@@ -94,3 +95,78 @@ app.post('/khalti', async(req, res) => {
         res.status(500).json({ error: 'An error occurred while communicating with Khalti API' });
     }
 });
+
+
+
+
+
+//image storage engine
+
+const storage = multer.diskStorage({
+    destination: './upload/images',
+    filename: (req, file, cb) => {
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+    }
+})
+
+const upload = multer({ storage: storage })
+
+//creating upload endpoint for images
+app.use("/images", express.static('upload/images'))
+
+app.post('/upload', upload.single('product'), (req, res) => {
+    upload(req, res, (err) => {
+        res.json({
+            success: 1,
+            imageUrl: `http://localhost:${port}/images/${req.file.filename}`
+        })
+    });
+});
+
+
+app.post('/addproduct', async(req, res) => {
+    let products = await Product.find({})
+    let id;
+    if (products.length > 0) {
+        let lastProductArray = products.slice(-1)
+        let lasProduct = lastProductArray[0]
+        id = lasProduct.id + 1;
+    } else {
+        id = 1
+    }
+    const product = new Product({
+        id: id,
+        title: req.body.title,
+        image: req.body.image,
+        category: req.body.category,
+        price: req.body.price,
+
+    })
+    console.log(product);
+    await product.save()
+    console.log("Saved product data");
+    res.json({
+        success: true,
+        title: req.body.title
+    })
+})
+
+//creating api for deleting products by admin
+
+
+app.post('/removeproduct', async(req, res) => {
+    await Product.findOneAndDelete({ id: req.body.id })
+    console.log("Removed");
+    res.json({
+        success: true,
+        title: req.body.title
+    })
+})
+
+//crating api for getting all entire producct when clicked
+
+app.get('/allproducts', async(req, res) => {
+    let products = await Product.find({})
+    console.log("All products fetched");
+    res.send(products)
+})

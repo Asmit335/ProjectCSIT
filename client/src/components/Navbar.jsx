@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
@@ -35,14 +35,17 @@ const menuItems = [
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [menuhr, setMenuhr] = useState();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // const { getTotalCartItems } = useContext(CartContext);
+  const [activeMenuItem, setActiveMenuItem] = useState(null);
 
-  // const cartItems = useSelector((state) => state.cart);
+  const handleMenuItemClick = (itemName) => {
+    setActiveMenuItem(itemName);
+  };
 
   return (
     <div className="relative w-full bg-white">
@@ -64,9 +67,15 @@ export default function Navbar() {
                 <Link
                   to={item.href}
                   className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
+                  onClick={() => handleMenuItemClick(item.name)}
                 >
                   {item.name}
-                  <span>{/* <ChevronDown className="ml-2 h-4 w-4" /> */}</span>
+                  <span
+                    style={{
+                      display: activeMenuItem === item.name ? "block" : "none",
+                    }}
+                  />
+                  <hr style={{ borderTop: "2px solid blue" }} />
                 </Link>
               </li>
             ))}
