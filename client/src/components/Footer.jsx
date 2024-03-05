@@ -24,7 +24,7 @@ export default function Footer() {
                   className="font-medium text-gray-600 hover:text-gray-700"
                   href="#"
                 >
-                  Privacy Policy
+                  {/* Privacy Policy */}
                 </a>
               </li>
               <li className="p-5">
@@ -32,7 +32,7 @@ export default function Footer() {
                   className="font-medium text-gray-600 hover:text-gray-700"
                   href="#"
                 >
-                  Terms of Service
+                  {/* Terms of Service */}
                 </a>
               </li>
               <li className="p-5">
@@ -40,7 +40,7 @@ export default function Footer() {
                   className="font-medium text-gray-600 hover:text-gray-700"
                   href="#"
                 >
-                  Return Policy
+                  {/* Return Policy */}
                 </a>
               </li>
               <li className="p-5">
@@ -48,7 +48,7 @@ export default function Footer() {
                   className="font-medium text-gray-600 hover:text-gray-700"
                   href="#"
                 >
-                  Contact Us
+                  {/* Contact Us */}
                 </a>
               </li>
             </ul>

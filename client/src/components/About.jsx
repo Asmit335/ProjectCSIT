@@ -7,23 +7,23 @@ const users = [
   {
     name: "Sudarshan Baral",
     image: "./images/sudarshan.jpeg",
-    position: "Marketing Lead",
+    // position: "Marketing Lead",
   },
   {
     name: "Jay Kishan Das",
     image: "./images/jay.jpeg",
-    position: "Front-end developer",
+    // position: "Front-end developer",
   },
 
   {
     name: "Asmit Khanal",
     image: "./images/pp.jpg",
-    position: "Back-end developer",
+    // position: "Back-end developer",
   },
   {
     name: "Sagar Dhakal",
-    image: "./images/sagarpp.jpeg",
-    position: "Sales",
+    image: "./images/sagarppp.jpeg",
+    // position: "Sales",
   },
 ];
 const About = () => {

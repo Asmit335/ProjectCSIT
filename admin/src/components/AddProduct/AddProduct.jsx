@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import upload_area from "../../Assets/upload_area.svg";
+import { toast } from "react-toastify";
+
 const AddProduct = () => {
   const [image, setImage] = useState(false);
   const [productDetail, setProductDetail] = useState({
@@ -90,8 +92,10 @@ const AddProduct = () => {
         // Display success or failure message based on server response
         if (addProductData.success) {
           console.log(productData);
+          toast.success("Product Added Successfully.");
           alert("Product Added");
         } else {
+          toast.error("Product Failed to Add.");
           alert("Failed to add product");
         }
       }

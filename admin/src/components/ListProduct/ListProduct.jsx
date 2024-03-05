@@ -1,59 +1,71 @@
-import React from "react";
-import upload_area from "../../Assets/upload_area.svg";
-
+import React, { useEffect, useState } from "react";
+import cross_icon from "../../Assets/cross_icon.png";
 const ListProduct = () => {
+  const [allProduct, setAllProduct] = useState([]);
+
+  // const fetchInfo = async () => {
+  //   await fetch("http:localhost:3000/allproduct")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setAllProduct(data);
+  //     });
+  // };
+
+  const fetchInfo = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/allproduct");
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Invalid response format");
+      }
+      console.log(response);
+
+      const data = await response.json();
+      setAllProduct(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+
   return (
     <>
-      <div className="product-list mx-auto w-full max-w-3xl px-6 py-8 bg-white rounded-md shadow-md">
-        <div className="mb-6">
-          <label
-            htmlFor="name"
-            className="block text-gray-900 text-base font-semibold mb-2"
-          >
-            Product Title
-          </label>
-          <p className="text-gray-700 font-sans text-base">
-            Sample Product Title
-          </p>
+      <div className="list-prouduct">
+        <h1 className="font-bold text-xl">All Products List</h1>
+        <div className="listproduct-format">
+          <p>Products</p>
+          <p>Title</p>
+          <p>Price</p>
+          <p>Category</p>
+          <p>Remove</p>
+          <img src={cross_icon} className="listproduct-remove" alt="loading" />
         </div>
 
-        <div className="mb-6">
-          <label
-            htmlFor="price"
-            className="block text-gray-900 text-base font-semibold mb-2"
-          >
-            Price
-          </label>
-          <p className="text-gray-700 font-sans text-base">100</p>
+        <div className="allproductList">
+          <hr className="border border-black" />
+          {allProduct.map((product, index) => {
+            return (
+              <div key={index} className="listproduct-format-main">
+                <img src={product.image} alt={product.title} />
+                <p>{product.title}</p>
+                <p>{product.price}</p>
+                <p>{product.category}</p>
+                <img
+                  src={cross_icon}
+                  className="listproduct-remove"
+                  alt="loading"
+                />
+              </div>
+            );
+          })}
         </div>
-
-        <div className="mb-6">
-          <label
-            htmlFor="category"
-            className="block text-gray-900 text-base font-semibold mb-2"
-          >
-            Product Category
-          </label>
-          <p className="text-gray-700 font-sans text-base">Electronics</p>
-        </div>
-
-        <div className="mb-6">
-          <label
-            htmlFor="image"
-            className="block text-gray-900 text-base font-semibold mb-2"
-          >
-            Product Image
-          </label>
-          <img
-            src={upload_area}
-            alt="Product Image"
-            className="w-full h-40 rounded-md border-2 border-gray-300 object-contain"
-          />
-        </div>
-
-        <button className="w-full h-12 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition duration-300">
-          Edit
-        </button>
       </div>
     </>
   );
