@@ -2,10 +2,105 @@ import React, { useState } from "react";
 import upload_area from "../../Assets/upload_area.svg";
 const AddProduct = () => {
   const [image, setImage] = useState(false);
+  const [productDetail, setProductDetail] = useState({
+    title: "",
+    image: false,
+    category: "electronics",
+    price: "",
+  });
 
   const imageHandler = (e) => {
     setImage(e.target.files[0]);
   };
+
+  const changeHandler = (e) => {
+    setProductDetail({ ...productDetail, [e.target.name]: e.target.value });
+  };
+
+  // const Add_product = async () => {
+  //   console.log(productDetail);
+  //   let product = productDetail;
+
+  //   let formData = new FormData();
+  //   formData.append("product", image);
+
+  //   try {
+  //     const response = await fetch("http://localhost:3000/upload", {
+  //       method: "POST",
+  //       headers: {
+  //         Accept: "application/json",
+  //       },
+  //       body: formData,
+  //     });
+
+  //     const responseData = await response.json();
+  //     console.log("Response product data:", responseData);
+
+  //     if (responseData.success) {
+  //       product.image = responseData.image_url;
+  //       console.log("if success", responseData);
+
+  //       await fetch('http://localhost:3000/addproduct',{
+  //         method:'POST',
+  //         headers:{
+  //           Accept:'application/json',
+  //           'Content-Type':'application/json',
+  //         },
+  //         body:JSON.stringify(product),
+
+  //       }).then((resp)=>resp.json(()).then((data)=>{
+  //         data.success?alert("Product Added"):alert("Failed to add product")
+  //       }))
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
+  const Add_product = async () => {
+    try {
+      // Prepare FormData with product image
+      const formData = new FormData();
+      formData.append("product", image);
+
+      // Upload image to server
+      const uploadResponse = await fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const uploadData = await uploadResponse.json();
+      console.log("Upload Response:", uploadData);
+
+      // If image upload is successful, add the product
+      if (uploadData.success) {
+        const productData = { ...productDetail, image: uploadData.imageUrl };
+        const addProductResponse = await fetch(
+          "http://localhost:3000/addproduct",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
+          }
+        );
+        const addProductData = await addProductResponse.json();
+        console.log("Add Product Response:", addProductData);
+
+        // Display success or failure message based on server response
+        if (addProductData.success) {
+          console.log(productData);
+          alert("Product Added");
+        } else {
+          alert("Failed to add product");
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred while adding product");
+    }
+  };
+
   return (
     <>
       <div className="add-product mx-auto w-full max-w-3xl px-6 py-8 bg-white rounded-md shadow-md">
@@ -19,7 +114,9 @@ const AddProduct = () => {
           <input
             type="text"
             id="name"
-            name="name"
+            name="title"
+            value={productDetail.title}
+            onChange={changeHandler}
             placeholder="Type here"
             className="w-full h-12 rounded-md pl-4 border-2 border-gray-300 outline-none text-gray-700 font-sans text-base focus:border-blue-500"
           />
@@ -36,6 +133,8 @@ const AddProduct = () => {
             type="number"
             id="price"
             name="price"
+            value={productDetail.price}
+            onChange={changeHandler}
             placeholder="Input Price"
             className="w-full h-12 rounded-md pl-4 border-2 border-gray-300 outline-none text-gray-700 font-sans text-base focus:border-blue-500 overflow-hidden"
           />
@@ -52,6 +151,8 @@ const AddProduct = () => {
             id="category"
             name="category"
             className="w-full h-12 rounded-md pl-4 border-2 border-gray-300 outline-none text-gray-700 font-sans text-base focus:border-blue-500"
+            value={productDetail.category}
+            onChange={changeHandler}
           >
             <option value="men's clothing">Men's Clothing</option>
             <option value="women's clothing">Women's Clothing</option>
@@ -83,7 +184,12 @@ const AddProduct = () => {
           />
         </div>
 
-        <button className="w-full h-12 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition duration-300">
+        <button
+          className="w-full h-12 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition duration-300"
+          onClick={() => {
+            Add_product();
+          }}
+        >
           Add
         </button>
       </div>

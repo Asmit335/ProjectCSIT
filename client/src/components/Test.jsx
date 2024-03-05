@@ -1,22 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+const [productDetail, setProductDetail] = useState({
+  title: "", // Change 'name' to 'title'
+  image: false, // Initialize with 'false'
+  category: "electronics",
+  price: "",
+});
 
-const Navbar = ({ menuItems }) => {
-  return (
-    <ul className="ml-12 inline-flex space-x-8">
-      {menuItems.map((item) => (
-        <li key={item.name}>
-          <Link
-            to={item.href}
-            className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
-          >
-            {item.name}
-            <span></span>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+const changeHandler = (e) => {
+  setProductDetail({ ...productDetail, [e.target.name]: e.target.value });
 };
-
-export default Navbar;

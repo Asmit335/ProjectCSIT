@@ -35,8 +35,8 @@ app.get("/", (req, res) => {
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true
     })
     .then(() => {
         console.log('Connected to MongoDB');
@@ -52,7 +52,7 @@ app.listen(port, () => {
 // hosting in render process
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { log } from 'console';
+// import { log } from 'console';
 import Product from './models/Product.js';
 
 const __filename = fileURLToPath(
@@ -115,11 +115,10 @@ const upload = multer({ storage: storage })
 app.use("/images", express.static('upload/images'))
 
 app.post('/upload', upload.single('product'), (req, res) => {
-    upload(req, res, (err) => {
-        res.json({
-            success: 1,
-            imageUrl: `http://localhost:${port}/images/${req.file.filename}`
-        })
+    res.json({
+        success: 1,
+        imageUrl: `http://localhost:${port}/images/${req.file.filename}`
+
     });
 });
 
