@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ export default function Login() {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [enteredEmail, setEnteredEmail] = useState(""); // State to store entered email
 
   axios.defaults.withCredentials = true;
   const onSubmit = async (data) => {
@@ -53,7 +54,7 @@ export default function Login() {
       // Store token in localStorage
       localStorage.setItem("token", responseData.token);
       let data = localStorage.getItem("responseData");
-      console.log("localstorage", data);
+      console.log("localstorageee", data);
 
       // Extract email and uid from responseData if available
       const { email: userEmail, uid } = responseData.user || {};
@@ -77,6 +78,17 @@ export default function Login() {
       reset();
     }
   };
+
+  //extracting the user email address
+  const handleEmailChange = (event) => {
+    const userEmailemail = event.target.value;
+    setEnteredEmail(userEmailemail);
+    console.log("Email entered:", userEmailemail); // Log email value
+  };
+
+  useEffect(() => {
+    console.log("setupated email", enteredEmail);
+  }, [enteredEmail]);
 
   return (
     <>
@@ -124,6 +136,7 @@ export default function Login() {
                     })}
                     type="email"
                     required
+                    onChange={handleEmailChange}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                   {errors.email && (
@@ -141,7 +154,7 @@ export default function Login() {
                     Password
                   </label>
 
-                  <div className="text-sm">
+                  {/* <div className="text-sm">
                     <Link to="/forgetpass">
                       <a
                         href="#"
@@ -154,7 +167,7 @@ export default function Login() {
                         Forgot password?
                       </a>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="mt-2">

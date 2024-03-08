@@ -28,9 +28,7 @@ export default function FeaturedProduct() {
       <div className="bg-white ">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {/* <h1 className="text-2xl font-bold tracking-tight text-gray-900"> */}
-          <h1 className="text-4xl font-bold text-center mt-24">
-            Most Popular Products
-          </h1>
+          <h1 className="text-4xl font-bold text-center mt-24">Our Products</h1>
 
           <section className="text-gray-600 body-font m-10">
             <div className="container px-5 py-24 mx-auto">

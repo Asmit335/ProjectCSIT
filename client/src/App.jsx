@@ -12,16 +12,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import Test from "./components/Test";
 import ForgetPass from "./components/ForgetPass";
-// import Admin from "./components/Admin";
-// import Dashboard from "./components/Dashboard";
 import ProductDetail from "./components/ProductDetail";
 import Category from "./components/Category";
-// import ProductCategory from "./components/ProductCategory";
-// import CategoryProduct from "./components/CategoryProduct";
 import CategoryProducts from "./components/CategoryProducts";
 import NewFilter from "./components/NewFilter";
 import Cart from "./components/Cart";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import Test from "./components/Test";
+import { Checkout } from "./components/Checkout/Checkout";
 const App = () => {
   return (
     <>
@@ -38,24 +35,13 @@ const App = () => {
           <Route path="/*" element={<ErrorPage />} />
           <Route path="/forgetpass" element={<ForgetPass />} />
 
-          {/* protectedroute */}
-
-          {/* <ProtectedRoute
-            path="/dashboard"
-            component={Dashboard}
-            fallback={Login}
-          />
-          <ProtectedRoute path="/admin" component={Admin} fallback={Login} /> */}
-
-          {/* protected route */}
-
           <Route path="/category" element={<Category />} />
-          <Route path="/filter" element={<NewFilter />} />
-          {/* <Route path="/productselect" element={<ProductCategory />} /> */}
+          <Route path="/test" element={<Test />} />
           <Route path="/categories/:name" element={<CategoryProducts />} />
-
           <Route path="/products/:id" element={<ProductDetail />} />
-          {/* <Route path="/test" element={<Test />} /> */}
+
+          <Route path="/filter" element={<NewFilter />} />
+          <Route path="/check" element={<Checkout />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>

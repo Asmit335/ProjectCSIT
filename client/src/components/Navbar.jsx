@@ -1,10 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FiShoppingCart } from "react-icons/fi";
-// import { CartContext } from "../context/CartContextApi";
-
-// import { useSelector } from "react-redux";
 
 const menuItems = [
   {
@@ -49,6 +45,7 @@ export default function Navbar() {
 
   return (
     <div className="relative w-full bg-white">
+      <h1 className="font-bold border border-black">{enteredEmail}</h1>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>

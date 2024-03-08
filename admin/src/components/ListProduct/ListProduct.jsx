@@ -3,17 +3,9 @@ import cross_icon from "../../Assets/cross_icon.png";
 const ListProduct = () => {
   const [allProduct, setAllProduct] = useState([]);
 
-  // const fetchInfo = async () => {
-  //   await fetch("http:localhost:3000/allproduct")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setAllProduct(data);
-  //     });
-  // };
-
   const fetchInfo = async () => {
     try {
-      const response = await fetch("http://localhost:3000/allproduct");
+      const response = await fetch("http://localhost:3000/upload-image");
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

@@ -21,6 +21,7 @@
         "cors": "^2.8.5",
         "dotenv": "^16.4.4",
         "express": "^4.18.2",
+        "firebase": "^10.8.1",
         "formik": "^2.4.5",
         "jsonwebtoken": "^9.0.2",
         "lucide-react": "^0.298.0",

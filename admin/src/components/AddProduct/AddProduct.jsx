@@ -19,46 +19,6 @@ const AddProduct = () => {
     setProductDetail({ ...productDetail, [e.target.name]: e.target.value });
   };
 
-  // const Add_product = async () => {
-  //   console.log(productDetail);
-  //   let product = productDetail;
-
-  //   let formData = new FormData();
-  //   formData.append("product", image);
-
-  //   try {
-  //     const response = await fetch("http://localhost:3000/upload", {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: "application/json",
-  //       },
-  //       body: formData,
-  //     });
-
-  //     const responseData = await response.json();
-  //     console.log("Response product data:", responseData);
-
-  //     if (responseData.success) {
-  //       product.image = responseData.image_url;
-  //       console.log("if success", responseData);
-
-  //       await fetch('http://localhost:3000/addproduct',{
-  //         method:'POST',
-  //         headers:{
-  //           Accept:'application/json',
-  //           'Content-Type':'application/json',
-  //         },
-  //         body:JSON.stringify(product),
-
-  //       }).then((resp)=>resp.json(()).then((data)=>{
-  //         data.success?alert("Product Added"):alert("Failed to add product")
-  //       }))
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-
   const Add_product = async () => {
     try {
       // Prepare FormData with product image

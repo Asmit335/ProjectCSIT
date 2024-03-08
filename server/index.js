@@ -8,17 +8,18 @@ import path from 'path'
 dotenv.config();
 import axios from "axios"
 import multer from 'multer'
+import bodyParser from 'body-parser'
+
+
 
 const port = process.env.PORT || 3001
 const app = express();
 app.use(express.json());
-app.use(cors({
-    // origin: ["http://localhost:5173"],
-    // credentials: true
-}));
+app.use(cors());
 app.use(cookieParser())
 app.use(cors())
 app.use(UserRouter);
+app.use(bodyParser.json());
 
 
 
@@ -100,27 +101,13 @@ app.post('/khalti', async(req, res) => {
 
 
 
-//image storage engine
 
-const storage = multer.diskStorage({
-    destination: './upload/images',
-    filename: (req, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-    }
-})
 
-const upload = multer({ storage: storage })
+
 
 //creating upload endpoint for images
-app.use("/images", express.static('upload/images'))
+app.use("/uploads", express.static('uploads'))
 
-app.post('/upload', upload.single('product'), (req, res) => {
-    res.json({
-        success: 1,
-        imageUrl: `http://localhost:${port}/images/${req.file.filename}`
-
-    });
-});
 
 
 app.post('/addproduct', async(req, res) => {
@@ -169,3 +156,79 @@ app.get('/allproducts', async(req, res) => {
     console.log("All products fetched");
     res.send(products)
 })
+
+
+
+
+// test image uploading and displaying
+
+//importing schema
+// import ImageSchema from './models/ImageSchema.js'
+// require("./imagesofServer");
+// const Images = mongoose.model("Imagedetails");
+
+
+// const multer = require("multer");
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        console.log(req.file);
+        console.log(req.body);
+        cb(null, "./");
+    },
+    filename: function(req, file, cb) {
+        const uniqueSuffix = Date.now();
+        cb(null, uniqueSuffix + file.originalname);
+    },
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload-image", upload.single("image"), async(req, res) => {
+    console.log(req.file);
+    console.log(req.body);
+    const imageName = req.file.filename;
+
+    try {
+        await Images.create({ image: imageName });
+        res.json({ status: "ok" });
+    } catch (error) {
+        res.json({ status: error });
+    }
+});
+
+app.get("/get-image", async(req, res) => {
+    try {
+        Images.find({}).then((data) => {
+            res.send({ status: "ok", data: data });
+            // console.log('getimg', data);
+        });
+    } catch (error) {
+        res.json({ status: error });
+    }
+});
+
+// Create Schema for cashout details
+const cashoutSchema = new mongoose.Schema({
+    fullName: String,
+    address: String,
+    phoneNumber: Number,
+    city: String,
+    province: String,
+    postalCode: Number,
+    paymentType: String,
+});
+
+const Cashout = mongoose.model('CashoutDetail', cashoutSchema);
+
+// POST route to store cashout details
+app.post('/api/cashout', async(req, res) => {
+    try {
+        const cashout = new Cashout(req.body);
+        await cashout.save();
+        res.status(201).send('Cashout details saved successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});

@@ -17,7 +17,7 @@ const Cart = () => {
 
   const handleInc = (id) => {
     const updatedCart = carts.map((item) => {
-      if (item.id === id) {
+      if (item.id === id && item.quantity < 5) {
         return {
           ...item,
           quantity: item.quantity + 1,
@@ -122,7 +122,10 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-center w-1/5 sm:w-1/5">
                     <svg
-                      className="fill-current text-gray-900 w-3 mr-1 cursor-pointer"
+                      className={`fill-current text-gray-900 w-3 mr-1 cursor-pointer ${
+                        cart?.quantity <= 0 &&
+                        "pointer-events-none text-gray-700"
+                      }`}
                       viewBox="0 0 448 512"
                       onClick={() => handleDec(cart?.id)}
                     >
@@ -209,9 +212,11 @@ const Cart = () => {
                 <span>Total cost</span>
                 <span>${(total + 10).toFixed(2)}</span>
               </div>
-              <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-2 sm:py-3 text-xs sm:text-sm text-white uppercase w-full">
-                Checkout
-              </button>
+              <Link to="/check">
+                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-2 sm:py-3 text-xs sm:text-sm text-white uppercase w-full">
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -55,7 +55,7 @@ export default function SignUp() {
     } catch (error) {
       console.error("Error:", error); // Handle error
       // Show error toast if signup fails
-      toast.error("Registration Failed: " + error.message);
+      toast.error("Registration Failed. ");
     }
   };
 
@@ -72,7 +72,7 @@ export default function SignUp() {
               />
             </Link>
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Create a New account
+              Register a New account
             </h2>
           </div>
 
