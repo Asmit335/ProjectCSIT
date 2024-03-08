@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Context1 from "../context/ContextApi";
 
 //loading import
 import { toast } from "react-toastify";
@@ -19,6 +20,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState(""); // State to store entered email
 
+  const { setUserEmail1 } = useContext(Context1);
   axios.defaults.withCredentials = true;
   const onSubmit = async (data) => {
     const { email, password } = data;
@@ -83,6 +85,7 @@ export default function Login() {
   const handleEmailChange = (event) => {
     const userEmailemail = event.target.value;
     setEnteredEmail(userEmailemail);
+    setUserEmail1(userEmailemail);
     console.log("Email entered:", userEmailemail); // Log email value
   };
 

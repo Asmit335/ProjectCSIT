@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import Context1 from "../context/ContextApi";
 
 const menuItems = [
   {
@@ -33,6 +34,9 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [menuhr, setMenuhr] = useState();
 
+  const { userEmail1 } = useContext(Context1);
+  console.log("User Email in Navbar:", userEmail1); // Console log userEmail
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -45,7 +49,6 @@ export default function Navbar() {
 
   return (
     <div className="relative w-full bg-white">
-      <h1 className="font-bold border border-black">{enteredEmail}</h1>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>
@@ -78,6 +81,13 @@ export default function Navbar() {
             ))}
           </ul>
         </div>
+
+        {userEmail1 && (
+          <div>
+            <h1 className="font-bold hidden sm:inline-block">{userEmail1}</h1>
+          </div>
+        )}
+
         <div className="hidden space-x-2 lg:flex items-center">
           <Link to="/signup">
             <button type="button" className=""></button>
@@ -176,11 +186,10 @@ export default function Navbar() {
                     ))}
                   </nav>
                 </div>
+                <div>
+                  <h1 className="font-bold">{userEmail1}</h1>
+                </div>
                 <div className="mt-2 space-y-2">
-                  <Link to="/signup">
-                    <button type="button" className=" "></button>
-                  </Link>
-
                   {localStorage.getItem("token") ? (
                     <button
                       type="button"
