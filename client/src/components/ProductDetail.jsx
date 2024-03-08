@@ -169,13 +169,14 @@ const ProductDetail = () => {
                 >
                   Buy Now
                 </button> */}
-
-                <button
-                  className="flex ml-auto text-black border border-black py-2 px-6 focus:outline-none hover:bg-indigo-700  hover:border-none  hover:text-white  rounded"
-                  onClick={() => handleCart(product)}
-                >
-                  Add to Cart
-                </button>
+                {localStorage.getItem("token") && (
+                  <button
+                    className="flex ml-auto text-black border border-black py-2 px-6 focus:outline-none hover:bg-indigo-700  hover:border-none  hover:text-white  rounded"
+                    onClick={() => handleCart(product)}
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </div>
             </div>
           </div>

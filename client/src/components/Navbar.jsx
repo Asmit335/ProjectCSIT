@@ -120,24 +120,20 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Link to="/cart" className="relative inline-flex items-center">
-            {/* <FiShoppingCart className=" ml-2  h-6 w-6" /> */}
-
-            <button
-              type="button"
-              className="w-full rounded-md bg-black px-3
+          {localStorage.getItem("token") && (
+            <Link to="/cart" className="relative inline-flex items-center">
+              <button
+                type="button"
+                className="w-full rounded-md bg-black px-3
                     py-2 text-sm font-semibold text-white shadow-sm
                     hover:bg-black/10 focus-visible:outline
                     focus-visible:outline-2 focus-visible:outline-offset-2
                     focus-visible:outline-black"
-            >
-              Cart
-            </button>
-
-            {/* <span className="absolute -top-3 left-7 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
-              {/*9 {cartItems.length} */}
-            {/* </span> */}
-          </Link>
+              >
+                Cart
+              </button>
+            </Link>
+          )}
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -223,23 +219,24 @@ export default function Navbar() {
                   </Link> */}
                 </div>
                 <br />
-                <Link to="/cart" className="relative inline-flex items-center">
-                  {/* <FiShoppingCart className=" ml-2  h-6 w-6" /> */}
 
-                  <button
-                    type="button"
-                    className="w-full rounded-md bg-black px-3
+                {localStorage.getItem("token") && (
+                  <Link
+                    to="/cart"
+                    className="relative inline-flex items-center"
+                  >
+                    <button
+                      type="button"
+                      className="w-full rounded-md bg-black px-3
                     py-2 text-sm font-semibold text-white shadow-sm
                     hover:bg-black/10 focus-visible:outline
                     focus-visible:outline-2 focus-visible:outline-offset-2
                     focus-visible:outline-black"
-                  >
-                    Cart
-                  </button>
-                  {/* <span className="absolute -top-3 left-7 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
-                    {/* 9{cartItems.length} */}
-                  {/* </span> */}
-                </Link>
+                    >
+                      Cart
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
