@@ -9,7 +9,7 @@ dotenv.config();
 import axios from "axios"
 import multer from 'multer'
 import bodyParser from 'body-parser'
-
+import checkout1 from './models/Checkout.js';
 
 
 const port = process.env.PORT || 3001
@@ -36,8 +36,8 @@ app.get("/", (req, res) => {
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-        // useNewUrlParser: true,
-        // useUnifiedTopology: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     })
     .then(() => {
         console.log('Connected to MongoDB');
@@ -208,27 +208,36 @@ app.get("/get-image", async(req, res) => {
     }
 });
 
-// Create Schema for cashout details
-const cashoutSchema = new mongoose.Schema({
-    fullName: String,
-    address: String,
-    phoneNumber: Number,
-    city: String,
-    province: String,
-    postalCode: Number,
-    paymentType: String,
-});
 
-const Cashout = mongoose.model('CashoutDetail', cashoutSchema);
 
-// POST route to store cashout details
-app.post('/api/cashout', async(req, res) => {
+// POST route to store order details
+
+// Route handler for handling order data
+app.post('/orderdata', async(req, res) => {
     try {
-        const cashout = new Cashout(req.body);
-        await cashout.save();
-        res.status(201).send('Cashout details saved successfully');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+        // Extract order data from the request body
+        const { fullname, paymentType, address, phone, city, province, postalCode, priceTopay } = req.body;
+
+        // Assuming you want to save the order data to a database using the checkout model
+        const newCheckout = new checkout1({
+            fullname,
+            paymentType,
+            address,
+            phone,
+            city,
+            province,
+            postalCode,
+            priceTopay
+        });
+
+        // Save the order data to the database
+        await newCheckout.save();
+
+        // Send a success response
+        res.status(200).json({ success: true, message: 'Order data saved successfully' });
+    } catch (error) {
+        // If an error occurs, send an error response
+        console.error('Error saving order data:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });

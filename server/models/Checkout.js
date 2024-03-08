@@ -8,9 +8,17 @@ const checkoutSchema = new Schema({
         required: true,
 
     },
+    phone: {
+        type: Number,
+        required: true
+    },
     paymentType: {
         type: String,
         required: true,
+    },
+    priceTopay: {
+        type: Number,
+        required: true
     },
     address: {
         type: String,
@@ -31,5 +39,5 @@ const checkoutSchema = new Schema({
     }
 });
 
-const checkout = model("OrderDetail", checkoutSchema)
-export default checkout
+const checkout1 = model("OrderDetail", checkoutSchema)
+export default checkout1
