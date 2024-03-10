@@ -35,7 +35,6 @@ export default function Navbar() {
   const [menuhr, setMenuhr] = useState();
 
   const { userEmail1 } = useContext(Context1);
-  console.log("User Email in Navbar:", userEmail1); // Console log userEmail
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -46,6 +45,8 @@ export default function Navbar() {
   const handleMenuItemClick = (itemName) => {
     setActiveMenuItem(itemName);
   };
+
+  localStorage.setItem("emailOfUser", userEmail1);
 
   return (
     <div className="relative w-full bg-white">

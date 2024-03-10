@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import checkout1 from "../../../../server/models/Checkout";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Context1 from "../../context/ContextApi";
 
 export function Checkout() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,9 @@ export function Checkout() {
   });
 
   const navigate = useNavigate();
+
+  const { total1 } = useContext(Context1);
+  console.log("Price total value is: ", total1);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -247,6 +251,8 @@ export function Checkout() {
                                       type="text"
                                       id="postal-code"
                                       name="postalCode"
+                                      maxLength="5"
+                                      min="0"
                                       value={formData.postalCode}
                                       onChange={(e) =>
                                         setFormData({
@@ -262,7 +268,7 @@ export function Checkout() {
                               </div>
                             </div>
                             <div className="mt-1 flex flex-row items-center">
-                              <div className="mr-6">
+                              <div className="mr-6 ">
                                 <label
                                   htmlFor="postal-code"
                                   className="block text-sm font-medium text-gray-700"
@@ -271,10 +277,13 @@ export function Checkout() {
                                 </label>
                                 <div className="mt-1">
                                   <input
-                                    type="text"
+                                    type="number"
                                     id="priceTopay"
                                     name="priceTopay"
-                                    value={formData.priceTopay}
+                                    maxLength="6"
+                                    min="0"
+                                    value={total1}
+                                    readOnly
                                     onChange={(e) =>
                                       setFormData({
                                         ...formData,

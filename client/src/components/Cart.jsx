@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Context1 from "../context/ContextApi";
 
 const Cart = () => {
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const carts = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const { setTotal1 } = useContext(Context1);
 
   useEffect(() => {
     const total = carts.reduce((acc, item) => {
@@ -17,7 +20,7 @@ const Cart = () => {
 
   const handleInc = (id) => {
     const updatedCart = carts.map((item) => {
-      if (item.id === id && item.quantity < 5) {
+      if (item.id === id && item.quantity < 4) {
         return {
           ...item,
           quantity: item.quantity + 1,
@@ -48,6 +51,9 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     navigate("/cart");
   };
+
+  const a = (total + 10).toFixed(2);
+  setTotal1(a);
 
   if (carts.length === 0) {
     return (
@@ -210,7 +216,7 @@ const Cart = () => {
             <div className="border-t mt-6 sm:mt-8">
               <div className="flex font-semibold justify-between py-4 sm:py-6 text-xs sm:text-sm uppercase">
                 <span>Total cost</span>
-                <span>${(total + 10).toFixed(2)}</span>
+                <span>${a}</span>
               </div>
               <Link to="/check">
                 <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-2 sm:py-3 text-xs sm:text-sm text-white uppercase w-full">

@@ -43,6 +43,9 @@ export default function SignUp() {
       console.log("Server Response:", responseData); // Logging response to console
       console.log("Submitted Form Data:", data);
 
+      // Store email in localStorage
+      localStorage.setItem("email", email);
+
       // Store token in localStorage
       localStorage.setItem("token", responseData.token);
 
