@@ -51,10 +51,12 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     navigate("/cart");
   };
-
   const a = (total + 10).toFixed(2);
-  setTotal1(a);
 
+  useEffect(() => {
+    const a = (total + 10).toFixed(2);
+    setTotal1(a);
+  }, [total]);
   if (carts.length === 0) {
     return (
       <>
