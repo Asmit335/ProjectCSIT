@@ -14,7 +14,7 @@ export function Checkout() {
     city: "",
     province: "",
     postalCode: "",
-    priceTopay: "",
+    priceTopay: "199.99",
   });
 
   const navigate = useNavigate();
@@ -277,12 +277,12 @@ export function Checkout() {
                                 </label>
                                 <div className="mt-1">
                                   <input
-                                    type="number"
+                                    type="text"
                                     id="priceTopay"
                                     name="priceTopay"
                                     maxLength="6"
                                     min="0"
-                                    value={formData.priceTopay}
+                                    value={total1}
                                     onChange={(e) => {
                                       let inputValue = e.target.value;
                                       const regex = /^\d*\.?\d*$/;

@@ -9,6 +9,10 @@ const Cart = () => {
   const [total, setTotal] = useState(0);
   const carts = JSON.parse(localStorage.getItem("cart")) || [];
 
+  const [cartItems, setCartItems] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+
   const { setTotal1 } = useContext(Context1);
 
   useEffect(() => {
@@ -71,6 +75,8 @@ const Cart = () => {
     );
   }
 
+  const isCheckoutDisabled = cartItems.some((item) => item.quantity === 0);
+
   return (
     <>
       <Navbar />
@@ -131,7 +137,7 @@ const Cart = () => {
                   <div className="flex justify-center w-1/5 sm:w-1/5">
                     <svg
                       className={`fill-current text-gray-900 w-3 mr-1 cursor-pointer ${
-                        cart?.quantity <= 0 &&
+                        cart?.quantity <= 1 &&
                         "pointer-events-none text-gray-700"
                       }`}
                       viewBox="0 0 448 512"

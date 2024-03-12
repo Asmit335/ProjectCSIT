@@ -93,7 +93,7 @@ const ProductDetail = () => {
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
                 {product?.title}
               </h1>
-              <div className="flex mb-4">
+              {/* <div className="flex mb-4">
                 <span className="flex items-center">
                   <svg
                     fill="currentColor"
@@ -155,7 +155,7 @@ const ProductDetail = () => {
                     {product?.rating.rate}
                   </span>
                 </span>
-              </div>
+              </div> */}
               <p className="leading-relaxed">{product?.description}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5"></div>
               <div className="flex">

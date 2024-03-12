@@ -86,8 +86,19 @@ export default function Login() {
     const userEmailemail = event.target.value;
     setEnteredEmail(userEmailemail);
     setUserEmail1(userEmailemail);
+    localStorage.setItem("userEmail1", userEmailemail); // Store email in local storage
     console.log("Email entered:", userEmailemail); // Log email value
   };
+
+  useEffect(() => {
+    // On component mount, check if user email is stored in local storage
+    const storedEmail = localStorage.getItem("userEmail1");
+    if (storedEmail) {
+      // If email is found in local storage, set it in the state
+      setEnteredEmail(storedEmail);
+      setUserEmail1(storedEmail);
+    }
+  }, []);
 
   useEffect(() => {
     console.log("setupated email", enteredEmail);

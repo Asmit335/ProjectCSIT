@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import Context1 from "../context/ContextApi";
@@ -34,7 +34,16 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [menuhr, setMenuhr] = useState();
 
+  const [userEmail, setUserEmail] = useState("");
+
   const { userEmail1 } = useContext(Context1);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail1");
+    if (storedEmail) {
+      setUserEmail(storedEmail);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -45,8 +54,6 @@ export default function Navbar() {
   const handleMenuItemClick = (itemName) => {
     setActiveMenuItem(itemName);
   };
-
-  localStorage.setItem("emailOfUser", userEmail1);
 
   return (
     <div className="relative w-full bg-white">
@@ -83,11 +90,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {userEmail1 && (
-          <div>
-            <h1 className="font-bold hidden sm:inline-block">{userEmail1}</h1>
-          </div>
-        )}
+        <div>{userEmail && <h1 className="font-bold">{userEmail}</h1>}</div>
 
         <div className="hidden space-x-2 lg:flex items-center">
           <Link to="/signup">
@@ -105,6 +108,7 @@ export default function Navbar() {
                 localStorage.removeItem("email");
                 localStorage.removeItem("uid");
                 localStorage.removeItem("token");
+                localStorage.removeItem("userEmail1");
                 window.location.replace("/");
               }}
             >
@@ -184,8 +188,9 @@ export default function Navbar() {
                   </nav>
                 </div>
                 <div>
-                  <h1 className="font-bold">{userEmail1}</h1>
+                  {userEmail && <h1 className="font-bold">{userEmail}</h1>}
                 </div>
+
                 <div className="mt-2 space-y-2">
                   {localStorage.getItem("token") ? (
                     <button
@@ -194,6 +199,8 @@ export default function Navbar() {
                       onClick={() => {
                         // Clear token from localStorage on logout
                         localStorage.removeItem("token");
+                        localStorage.removeItem("userEmail1");
+
                         window.location.replace("/");
                       }}
                     >
