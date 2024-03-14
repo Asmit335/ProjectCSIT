@@ -64,7 +64,7 @@ const Cart = () => {
   if (carts.length === 0) {
     return (
       <>
-        <div className="  text-black font-bold  justify-center items-center text-4xl ">
+        <div className="  text-black font-bold  justify-center items-center text-2xl ">
           <div>
             <Navbar />
           </div>

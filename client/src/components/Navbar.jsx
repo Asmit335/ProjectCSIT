@@ -20,10 +20,7 @@ const menuItems = [
     name: "Product",
     href: "/product",
   },
-  // {
-  //   name: "Admin",
-  //   href: "/admin",
-  // },
+
   // {
   //   name: "Dashboard",
   //   href: "/dashboard",
@@ -87,10 +84,34 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+
+            {localStorage.getItem("token") &&
+              localStorage.getItem("userEmail1") !==
+                "asmitkhanal335@gmail.com" && (
+                <Link to="/order">
+                  <li className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
+                    Order
+                  </li>
+                </Link>
+              )}
+            {localStorage.getItem("userEmail1") ===
+              "asmitkhanal335@gmail.com" && (
+              <Link to="/admin">
+                <li className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
+                  Admin
+                </li>
+              </Link>
+            )}
           </ul>
         </div>
 
-        <div>{userEmail && <h1 className="font-bold">{userEmail}</h1>}</div>
+        <div>
+          {userEmail && (
+            <h1 className=" font-bold text-1xl sm:text-2xl md:text-2xl ">
+              {userEmail}
+            </h1>
+          )}
+        </div>
 
         <div className="hidden space-x-2 lg:flex items-center">
           <Link to="/signup">
@@ -109,6 +130,11 @@ export default function Navbar() {
                 localStorage.removeItem("uid");
                 localStorage.removeItem("token");
                 localStorage.removeItem("userEmail1");
+                localStorage.removeItem("cart");
+                localStorage.removeItem("orderData");
+                localStorage.removeItem("responseData");
+                localStorage.removeItem("emailOfUser");
+
                 window.location.replace("/");
               }}
             >
@@ -188,7 +214,11 @@ export default function Navbar() {
                   </nav>
                 </div>
                 <div>
-                  {userEmail && <h1 className="font-bold">{userEmail}</h1>}
+                  {userEmail && (
+                    <h1 className="font-bold text-2xl sm:text-2xl md:text-2xl ">
+                      {userEmail}
+                    </h1>
+                  )}
                 </div>
 
                 <div className="mt-2 space-y-2">

@@ -168,20 +168,14 @@ export default function Login() {
                     Password
                   </label>
 
-                  {/* <div className="text-sm">
-                    <Link to="/forgetpass">
-                      <a
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault(); // Prevent default behavior
-                          // Add your custom logic here
-                        }}
-                        className="font-semibold text-indigo-600 hover:text-indigo-500"
-                      >
-                        Forgot password?
-                      </a>
+                  <div className="text-sm">
+                    <Link
+                      to="/forgetpass"
+                      className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    >
+                      Forgot password?
                     </Link>
-                  </div> */}
+                  </div>
                 </div>
 
                 <div className="mt-2">

@@ -86,8 +86,21 @@ router.post("/login", async(req, res) => {
 router.post("/forgetpass", async(req, res) => {
     const { email } = req.body;
 
+    // Generate JWT token
+    const token = jwt.sign({ email }, process.env.KEY, { expiresIn: '1h' });
+    if (!token) {
+        return res.status(500).json({ message: "Error generating token" });
+    }
+
+    console.log("Tokennn:", token); // Log the token
+
+    // Include the token in the reset password link
+    const resetPasswordLink = `http://localhost:5173/resetpass/${token}`;
+    console.log("reset", resetPasswordLink);
+
     async function sendMail(email) {
         try {
+            // Your nodemailer code
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -100,15 +113,15 @@ router.post("/forgetpass", async(req, res) => {
                 from: 'khanalasmit696@gmail.com',
                 to: email,
                 subject: 'Reset Password',
-                text: 'This is the email to reset your password',
-                // text: `http://localhost:5173/resetpass/${token}`
-
-
-
+                html: `
+                    <p>You have requested to reset your password.</p>
+                    <p>Please click the following link to reset your password:</p>
+                    <a href="${resetPasswordLink}">Reset Password</a>
+                `
             };
 
             const result = await transporter.sendMail(mailOptions);
-            console.log("Email sent successfully.Please Check your Email to reset Password.");
+            console.log("Email sent successfully. Please check your email to reset your password.");
             return result;
         } catch (error) {
             console.error("Error sending email:", error);
@@ -118,11 +131,12 @@ router.post("/forgetpass", async(req, res) => {
 
     try {
         await sendMail(email);
-        res.status(200).send("Reset password email sent successfully.");
+        res.status(200).json({ message: "Reset password email sent successfully." });
     } catch (error) {
-        res.status(500).send("Failed to send reset password email.");
+        res.status(500).json({ message: "Failed to send reset password email." });
     }
 });
+
 
 
 //resetPassword

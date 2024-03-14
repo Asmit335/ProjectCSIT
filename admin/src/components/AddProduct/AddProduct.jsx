@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import upload_area from "../../Assets/upload_area.svg";
+// import upload_area from "../../Assets/upload_area.svg";
 import { toast } from "react-toastify";
 
 const AddProduct = () => {
@@ -23,32 +23,29 @@ const AddProduct = () => {
     try {
       // Prepare FormData with product image
       const formData = new FormData();
-      formData.append("product", image);
-
+      formData.append("image", image);
       // Upload image to server
-      const uploadResponse = await fetch("http://localhost:3000/upload-image", {
+      const uploadResponse = await fetch("http://localhost:3000/upload", {
         method: "POST",
         body: formData,
       });
       const uploadData = await uploadResponse.json();
       console.log("Upload Response:", uploadData);
-
-      // If image upload is successful, add the product
+      //   If image upload is successful, add the product
       if (uploadData.success) {
         const productData = { ...productDetail, image: uploadData.imageUrl };
         const addProductResponse = await fetch(
-          "http://localhost:3000/addproduct",
+          "http://localhost:3000/allproducts",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(productData),
+            productData,
           }
         );
         const addProductData = await addProductResponse.json();
         console.log("Add Product Response:", addProductData);
-
         // Display success or failure message based on server response
         if (addProductData.success) {
           console.log(productData);

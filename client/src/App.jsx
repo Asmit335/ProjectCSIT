@@ -19,6 +19,9 @@ import NewFilter from "./components/NewFilter";
 import Cart from "./components/Cart";
 import Test from "./components/Test";
 import { Checkout } from "./components/Checkout/Checkout";
+import Newcheckout from "./components/Checkout/Newcheckout";
+import Order from "./components/Order";
+import Admin from "./components/Admin/Admin";
 const App = () => {
   return (
     <>
@@ -42,6 +45,10 @@ const App = () => {
 
           <Route path="/filter" element={<NewFilter />} />
           <Route path="/check" element={<Checkout />} />
+          <Route path="/newcheck" element={<Newcheckout />} />
+
+          <Route path="/order" element={<Order />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>

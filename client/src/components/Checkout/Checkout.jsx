@@ -110,9 +110,10 @@ export function Checkout() {
                                     Full Name
                                   </label>
                                   <input
+                                    pattern=".{5,}"
+                                    title="Name must be at least 5 characters long"
                                     className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2  text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                     type="text"
-                                    placeholder="Enter your name"
                                     id="name"
                                     name="fullname"
                                     value={formData.fullname}
@@ -144,6 +145,7 @@ export function Checkout() {
                                   </label>
                                   <div className="mt-1">
                                     <input
+                                      pattern=".{5,}"
                                       type="text"
                                       id="address"
                                       name="address"
@@ -178,13 +180,14 @@ export function Checkout() {
                                           phone: e.target.value,
                                         })
                                       }
+                                      pattern="^98\d{8}$"
+                                      title="Phone number must start with 98 and have a total of 10 digits"
+                                      required
                                       autoComplete="tel"
-                                      pattern="[0-9]{10}"
+                                      // pattern="[0-9]{10}"
                                       maxLength="10"
                                       min="0"
-                                      title="Please enter a 10-digit phone number"
                                       className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-                                      required
                                     />
                                   </div>
                                 </div>
@@ -199,6 +202,7 @@ export function Checkout() {
                                   <div className="mt-1">
                                     <input
                                       type="text"
+                                      pattern=".{4,}"
                                       id="city"
                                       name="city"
                                       value={formData.city}

@@ -22,10 +22,27 @@ function ForgetPass() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const responseData = await response.json();
+      // Parse response text
+      const responseDataText = await response.text();
+
+      // Attempt to parse response as JSON
+      let responseData;
+      try {
+        responseData = JSON.parse(responseDataText);
+        console.log(" response data:", responseData);
+      } catch (error) {
+        console.error("Error parsing JSON response:", error);
+        console.log(" response data:", responseData);
+        // Handle non-JSON response
+        setMessage(responseDataText);
+        console.log("rrr", responseDataText);
+        return;
+      }
+
       setMessage(responseData.message);
-      if (responseData.data.status) {
-        window.alert("Check your Email for reset Password.");
+
+      if (responseData.data && responseData.data.status) {
+        alert("Check your Email to reset Password.");
         navigate("/login");
         // Reset email input field after successful submission
         setEmail("");
