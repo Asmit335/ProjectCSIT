@@ -22,6 +22,10 @@ import { Checkout } from "./components/Checkout/Checkout";
 import Newcheckout from "./components/Checkout/Newcheckout";
 import Order from "./components/Order";
 import Admin from "./components/Admin/Admin";
+
+import CreateUser from "./components/CrudNode/CreateUser";
+import UpdateUser from "./components/CrudNode/UpdateUser";
+import User from "./components/CrudNode/User";
 const App = () => {
   return (
     <>
@@ -49,6 +53,10 @@ const App = () => {
 
           <Route path="/order" element={<Order />} />
           <Route path="/admin" element={<Admin />} />
+
+          <Route path="/user" element={<User />} />
+          <Route path="/create" element={<CreateUser />} />
+          <Route path="/update" element={<UpdateUser />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>
