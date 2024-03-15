@@ -1,7 +1,7 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
+import './App.css';
+import Navbar from './components/Navbar';
 
-import Admin from "./pages/admin/Admin";
+import Admin from './components/Admin/Admin';
 function App() {
   return (
     <>
