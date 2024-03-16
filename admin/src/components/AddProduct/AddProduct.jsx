@@ -46,7 +46,7 @@ const AddProduct = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            productData,
+            body: JSON.stringify(productData),
           }
         );
         const addProductData = await addProductResponse.json();

@@ -10,6 +10,7 @@ import axios from 'axios';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import checkout1 from './models/Checkout.js';
+import { ProductRouter } from './routes/product.js';
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(cors());
 app.use(UserRouter);
+app.use(ProductRouter);
 app.use(bodyParser.json());
 
 // API creation
