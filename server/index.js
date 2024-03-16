@@ -10,6 +10,8 @@ import axios from 'axios';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import checkout1 from './models/Checkout.js';
+import CrudUserModel from './models/CrudUser.js'
+
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -170,3 +172,25 @@ app.post('/orderdata', async(req, res) => {
         res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
+
+
+
+//crud user 
+
+// app.post("/createUser", async(req, res) => {
+//     try {
+//         const userData = req.body
+//         const newUser = await CrudUserModel.create(userData)
+
+//         res.status(201).json({
+//             status: "success",
+//             data: newUser
+//         })
+//     } catch (e) {
+//         res.status(400).json({
+//             status: 'error',
+//             message: e.message
+//         })
+//     }
+
+// })

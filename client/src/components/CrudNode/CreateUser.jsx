@@ -1,25 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const CreateUser = () => {
-  const backgroundImageStyle = {
-    backgroundImage: `url('https://images.unsplash.com/photo-1448067686092-1f4f2070baae?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBvcnRmb2xpbyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D')`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    age: "",
+  });
+
+  const changeHandler = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/creatUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      // Check if the request was successful (status code 200-299)
+      if (response.ok) {
+        // Handle successful response
+        const responseData = await response.json();
+        console.log("User created:", responseData);
+
+        // Reset the user state
+        setUser({
+          name: "",
+          email: "",
+          age: "",
+        });
+      } else {
+        // Handle errors for non-successful responses
+        const errorMessage = await response.text();
+        console.error("Error creating user:", errorMessage);
+      }
+    } catch (error) {
+      // Handle network errors or other exceptions
+      console.error("Error:", error.message);
+    }
+  };
+
   return (
     <>
-      <div
-        className="min-h-screen flex items-center justify-center bg-gray-900"
-        // style={}
-      >
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
         <div className="max-w-md w-full space-y-8 ">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-50">
               Add User
             </h2>
           </div>
-          <form className="mt-8 space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label htmlFor="name" className="sr-only">
@@ -29,6 +66,7 @@ const CreateUser = () => {
                   id="name"
                   name="name"
                   type="text"
+                  onChange={changeHandler}
                   autoComplete="name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -43,6 +81,7 @@ const CreateUser = () => {
                   id="email"
                   name="email"
                   type="email"
+                  onChange={changeHandler}
                   autoComplete="email"
                   required
                   className="appearance-none   relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -56,6 +95,7 @@ const CreateUser = () => {
                 <input
                   id="age"
                   name="age"
+                  onChange={changeHandler}
                   type="text"
                   autoComplete="age"
                   required

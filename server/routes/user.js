@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import nodemailer from 'nodemailer'
+import CrudUserModel from "../models/CrudUser.js";
 
 const router = express.Router();
 
@@ -171,5 +172,27 @@ router.post("/resetpass", async(req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
+//crud endPoint
+
+router.post("/createUser", async(req, res) => {
+    try {
+        const userData = req.body;
+        const newUser = await CrudUserModel.create(userData);
+
+        res.status(201).json({
+            status: "success",
+            data: newUser
+        });
+    } catch (e) {
+        res.status(400).json({
+            status: 'error',
+            message: e.message
+        });
+    }
+});
+
+
 
 export { router as UserRouter };

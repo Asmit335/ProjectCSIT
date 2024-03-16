@@ -22,7 +22,7 @@ const User = () => {
           <div className="py-8">
             <Link
               to="/create"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             >
               Add +
             </Link>
@@ -58,11 +58,11 @@ const User = () => {
                     <td className="border border-gray-500 px-4 py-2 flex justify-center items-center space-x-4">
                       <Link
                         to="/update"
-                        className="text-blue-500 hover:text-blue-700 font-bold"
+                        className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                       >
                         Update
                       </Link>
-                      <button className="text-red-500 hover:text-red-700 font-bold">
+                      <button className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                         Delete
                       </button>
                     </td>
