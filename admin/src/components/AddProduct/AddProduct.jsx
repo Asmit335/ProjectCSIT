@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import upload_area from '../../Assets/upload_area.svg';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import upload_area from "../../Assets/upload_area.svg";
+import { toast } from "react-toastify";
 
 const AddProduct = () => {
   const [image, setImage] = useState(false);
   const [productDetail, setProductDetail] = useState({
-    title: '',
+    title: "",
     image: false,
-    category: 'electronics',
-    price: '',
+    category: "electronics",
+    price: "",
   });
 
-  const imageHandler = e => {
+  const imageHandler = (e) => {
     console.log(e.target.files[0]);
     setImage(e.target.files[0]);
   };
 
-  const changeHandler = e => {
+  const changeHandler = (e) => {
     setProductDetail({ ...productDetail, [e.target.name]: e.target.value });
   };
 
@@ -24,15 +24,15 @@ const AddProduct = () => {
     try {
       // Prepare FormData with product image
       const formData = new FormData();
-      formData.append('image', image);
+      formData.append("image", image);
 
       // Upload image to server
-      const uploadResponse = await fetch('http://localhost:3000/upload', {
-        method: 'POST',
+      const uploadResponse = await fetch("http://localhost:3000/upload", {
+        method: "POST",
         body: formData,
       });
       const uploadData = await uploadResponse.json();
-      console.log('Upload Response:', uploadData);
+      console.log("Upload Response:", uploadData);
       //   If image upload is successful, add the product
       if (uploadData) {
         const productData = { ...productDetail, image: uploadData.imageUrl };
@@ -40,30 +40,30 @@ const AddProduct = () => {
         // console.log(productData);
 
         const addProductResponse = await fetch(
-          'http://localhost:3000/addproduct',
+          "http://localhost:3000/addproduct",
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             productData,
           }
         );
         const addProductData = await addProductResponse.json();
-        console.log('Add Product Response:', addProductData);
+        console.log("Add Product Response:", addProductData);
         // Display success or failure message based on server response
         if (addProductData.success) {
           console.log(productData);
-          toast.success('Product Added Successfully.');
-          alert('Product Added');
+          toast.success("Product Added Successfully.");
+          alert("Product Added");
         } else {
-          toast.error('Product Failed to Add.');
-          alert('Failed to add product');
+          toast.error("Product Failed to Add.");
+          alert("Failed to add product");
         }
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error occurred while adding product');
+      console.error("Error:", error);
+      alert("Error occurred while adding product");
     }
   };
 
