@@ -6,33 +6,33 @@ import bodyParser from 'body-parser';
 
 const router = express.Router();
 
-router.post('/addproduct', async (req, res) => {
-  try {
-    const { title, image, category, price } = req.body;
+router.post('/addproduct', async(req, res) => {
+    try {
+        const { title, image, category, price } = req.body;
 
-    console.log(req.body);
+        console.log(req.body);
 
-    const product = new Product({
-      title,
-      image, // Assuming image is a URL
-      category,
-      price,
-    });
-    await product.save();
-    console.log('Saved product data');
+        const product = new Product({
+            title,
+            image, // Assuming image is a URL
+            category,
+            price,
+        });
+        await product.save();
+        console.log('Saved product data');
 
-    console.log(product);
+        console.log(product);
 
-    res.json({
-      success: true,
-      title: req.body.title,
-      product,
-    });
-  } catch (error) {
-    console.log(error);
-    // console.error('Error saving product data:');
-    res.status(500).json({ success: false, error: 'Internal server error' });
-  }
+        res.json({
+            success: true,
+            title: req.body.title,
+            product,
+        });
+    } catch (error) {
+        console.log(error);
+        // console.error('Error saving product data:');
+        res.status(500).json({ success: false, error: 'Internal server error' });
+    }
 });
 
 // export default router;

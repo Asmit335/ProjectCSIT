@@ -100,7 +100,7 @@ export default function Navbar() {
               )}
             {localStorage.getItem("userEmail1") ===
               "asmitkhanal335@gmail.com" && (
-              <Link to="/admin">
+              <Link to="/user">
                 <li className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
                   Admin
                 </li>
