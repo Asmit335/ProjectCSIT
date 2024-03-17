@@ -114,9 +114,13 @@ router.post("/forgetpass", async(req, res) => {
                 to: email,
                 subject: 'Reset Password',
                 html: `
-                    <p>You have requested to reset your password.</p>
-                    <p>Please click the following link to reset your password:</p>
-                    <a href="${resetPasswordLink}">Reset Password</a>
+                <p>Hello,</p>
+                <p>We received a request to reset your password. If you didn't make this request, you can ignore this email.</p>
+                <p>To reset your password, please click the following link:</p>
+                <a href="${resetPasswordLink}">${resetPasswordLink}</a>
+                <p>This link will expire in 24 hours for security reasons.</p>
+                <p>If you have any questions or need further assistance, please contact our support team.</p>
+                <p>Thank you,<br/>EasySite</p>
                 `
             };
 
@@ -131,7 +135,7 @@ router.post("/forgetpass", async(req, res) => {
 
     try {
         await sendMail(email);
-        res.status(200).json({ message: "Reset password email sent successfully." });
+        res.status(200).json({ message: "Reset password email sent successfully. ", resetPasswordLink });
     } catch (error) {
         res.status(500).json({ message: "Failed to send reset password email." });
     }

@@ -82,7 +82,7 @@ router.post('/removeproduct', async(req, res) => {
 
 router.get('/featured', async(req, res) => {
     let product = await Product.find({})
-    let newProduct = product.slice(1).slice(-4)
+    let newProduct = product.slice(1).slice(-10)
     console.log("new featured product added");
     res.send(newProduct)
 })

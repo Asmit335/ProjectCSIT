@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 function ForgetPass() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [showColorRing, setShowColorRing] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowColorRing(true);
 
     try {
       const response = await fetch("http://localhost:3000/forgetpass", {
@@ -40,17 +44,29 @@ function ForgetPass() {
       }
 
       setMessage(responseData.message);
-
+      setEmail("");
       if (responseData.data && responseData.data.status) {
-        alert("Check your Email to reset Password.");
         navigate("/login");
         // Reset email input field after successful submission
-        setEmail("");
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setTimeout(() => {
+        setShowColorRing(false);
+      });
     }
   };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   return (
     <>
@@ -99,8 +115,24 @@ function ForgetPass() {
           </div>
         </form>
 
+        {showColorRing && (
+          <div className="flex justify-center mt-4">
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+            />
+          </div>
+        )}
         {message && (
-          <p className="mt-4 text-sm text-center text-red-600">{message}</p>
+          <p className="mt-4 font-bold text-sm text-center text-green-800">
+            {message}
+            <p>Please check your email to reset your password.</p>
+          </p>
         )}
       </div>
     </>
