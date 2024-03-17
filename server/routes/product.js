@@ -1,7 +1,7 @@
 // Route handler for adding a product
 import express from 'express';
 import Product from '../models/Product.js';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 // router.use(bodyParser.json());
 
 const router = express.Router();
@@ -35,57 +35,49 @@ router.post('/addproduct', async(req, res) => {
     }
 });
 
-// export default router;
 
-// app.post('/upload', async (req, res) => {
-//   let products = await Product.find({});
-//   let id;
-//   if (products.length > 0) {
-//     let lastProductArray = products.slice(-1);
-//     let lasProduct = lastProductArray[0];
-//     id = lasProduct.id + 1;
-//   } else {
-//     id = 1;
-//   }
-//   const product = new Product({
-//     id: id,
-//     title: req.body.title,
-//     image: req.body.image,
-//     category: req.body.category,
-//     price: req.body.price,
-//   });
-//   console.log(product);
-//   await product.save();
-//   console.log('Saved product data');
-//   res.json({
-//     success: true,
-//     id: id,
-//     title: req.body.title,
-//     image: req.body.image,
-//     category: req.body.category,
-//     price: req.body.price,
-//   });
-// });
+// for getting all entire producct when clicked
+
+router.get('/getproduct', async(req, res) => {
+    try {
+        // Fetch all products from the database
+        const products = await Product.find({});
+
+        // Send the products as a response
+        res.status(200).json(products);
+        console.log("Product got and fetched.");
+    } catch (error) {
+        // If an error occurs during the database query, handle it
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 
 // creating api
 // for deleting products by admin
 
-// app.post('/removeproduct', async (req, res) => {
-//   await Product.findOneAndDelete({ id: req.body.id });
-//   console.log('Removed');
-//   res.json({
-//     success: true,
-//     title: req.body.title,
-//   });
-// });
+router.post('/removeproduct', async(req, res) => {
+    try {
+        // Remove the product based on its _id
+        await Product.findOneAndDelete({ title: req.body.title });
+
+        console.log('Product removed');
+
+        // Respond with success
+        res.json({
+            success: true,
+            message: 'Product removed successfully'
+        });
+    } catch (error) {
+        // If an error occurs during deletion, handle it
+        console.error('Error removing product:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 // creating api
-// for getting all entire producct when clicked
-
-// app.get('/allproducts', async (req, res) => {
-//   let products = await Product.find({});
-//   console.log('All products fetched');
-//   res.send(products);
-// });
 
 export { router as ProductRouter };

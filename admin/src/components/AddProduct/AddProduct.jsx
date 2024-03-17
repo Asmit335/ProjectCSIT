@@ -56,6 +56,14 @@ const AddProduct = () => {
         if (addProductData.success) {
           console.log(productData);
           toast.success("Product Added Successfully.");
+          // Clear input fields after successful addition
+          setProductDetail({
+            title: "",
+            image: false,
+            category: "electronics",
+            price: "",
+          });
+          setImage(false);
           alert("Product Added");
         } else {
           toast.error("Product Failed to Add.");
