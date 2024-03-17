@@ -78,6 +78,13 @@ router.post('/removeproduct', async(req, res) => {
 });
 
 
-// creating api
+// creating endpoint for featured product
+
+router.get('/featured', async(req, res) => {
+    let product = await Product.find({})
+    let newProduct = product.slice(1).slice(-4)
+    console.log("new featured product added");
+    res.send(newProduct)
+})
 
 export { router as ProductRouter };
