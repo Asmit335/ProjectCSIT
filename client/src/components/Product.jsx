@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 const Product = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); //fakestore
+  const [products, setProducts] = useState([]); //admin product
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
 
@@ -26,12 +27,19 @@ const Product = () => {
     getProducts();
   }, []);
 
-  const Loading = () => {
-    return <>Loading</>;
-  };
+  // const filterProduct1 = (cat) => {
+  //   const updatedList = data.filter((x) => x.category === cat);
+  //   setFilter(updatedList);
+  // };
+
+  useEffect(() => {
+    fetch("http://localhost:3000/featured")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   const filterProduct = (cat) => {
-    const updatedList = data.filter((x) => x.category === cat);
+    const updatedList = data.concat(products).filter((x) => x.category === cat);
     setFilter(updatedList);
   };
 
@@ -112,6 +120,41 @@ const Product = () => {
                   </button>
                 </div>
               </Link>
+            ))}
+
+            {products.map((product) => (
+              <div
+                key={product.id}
+                className="lg:w-1/4 md:w-1/2 p-4 w-full border border-opacity-50"
+              >
+                <Link
+                  // to={`/products/${product.title}`}
+                  className="block relative h-48 rounded overflow-hidden"
+                >
+                  <a>
+                    <img
+                      alt="ecommerce"
+                      className="object-contain w-full h-full block transition duration-300 ease-in-out transform hover:scale-105 group-hover:opacity-75 cursor-pointer"
+                      src={`http://localhost:3000/${product.image}`}
+                    />
+                  </a>
+                </Link>
+                <div className="mt-4 text-center">
+                  <h3 className="text-gray-500 uppercase text-xs tracking-widest title-font mb-1">
+                    {product.category}
+                  </h3>
+                  <h2 className="text-gray-900 title-font text-lg font-medium">
+                    {product.title.substring(0, 15)}
+                  </h2>
+                  <p className="mt-1 font-bold text-black">${product.price}</p>
+                  <button
+                    className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    // onClick={() => handleBuy(product)}
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         </div>

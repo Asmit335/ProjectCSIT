@@ -37,9 +37,9 @@ export default function FeaturedProduct() {
 
     console.log("khalti response:", response);
     console.log("payment url:", `${response?.data?.data?.payment_url}`);
-    // if (response) {
-    //   window.location.href = `${response?.data?.data?.payment_url}`;
-    // }
+    if (response) {
+      window.location.href = `${response?.data?.data?.payment_url}`;
+    }
   };
 
   return (
