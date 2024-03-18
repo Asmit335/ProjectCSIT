@@ -3,6 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import nodemailer from 'nodemailer'
+import axios from 'axios'
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
@@ -175,5 +178,33 @@ router.post("/resetpass", async(req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
+
+//khalti payment
+router.post('/khalti', async(req, res) => {
+    try {
+        const payload = req.body;
+        const khaltiResponse = await axios.post("https://a.khalti.com/api/v2/epayment/initiate/", payload, {
+            headers: {
+                Authorization: `Key ${process.env.KHALTI_KEY}`
+            }
+        });
+
+        // Handle the response from Khalti API
+        console.log(khaltiResponse);
+        res.json({
+            success: true,
+            text: 'hello payment khalti gatewate',
+            data: khaltiResponse.data
+        });
+
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error("Error:", error);
+        res.status(500).json({ error: 'An error occurred while communicating with Khalti API' });
+    }
+});
+
 
 export { router as UserRouter };

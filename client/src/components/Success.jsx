@@ -1,11 +1,13 @@
 import React from "react";
 
-const Success = () => {
+function Success() {
   return (
-    <div className="font-bold justify-center items-center m-24">
-      Thankyou for your Payment!
+    <div className="min-h-screen bg-gray-900 flex justify-center items-center">
+      <div className="font-bold text-white text-3xl text-center">
+        Thank you for your Payment!
+      </div>
     </div>
   );
-};
+}
 
 export default Success;

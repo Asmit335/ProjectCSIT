@@ -27,6 +27,7 @@ import CreateUser from "./components/CrudNode/CreateUser";
 import UpdateUser from "./components/CrudNode/UpdateUser";
 import User from "./components/CrudNode/User";
 import ResetPass from "./components/ResetPass";
+import Success from "./components/Success";
 const App = () => {
   return (
     <>
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/update" element={<UpdateUser />} />
 
           <Route path="/reset" element={<ResetPass />} />
+          <Route path="/success" element={<Success />} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>
