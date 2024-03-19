@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Context1 from "../context/ContextApi";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 
 //loading import
 import { toast } from "react-toastify";
@@ -19,7 +20,11 @@ export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState(""); // State to store entered email
-
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    setOpen(!open);
+  };
+  const [passwordInput, setPasswordInput] = useState("");
   const { setUserEmail1 } = useContext(Context1);
   axios.defaults.withCredentials = true;
   const onSubmit = async (data) => {
@@ -90,6 +95,11 @@ export default function Login() {
     console.log("Email entered:", userEmailemail); // Log email value
   };
 
+  // password tracking
+  const handlePasswordChange = (e) => {
+    setPasswordInput(e.target.value);
+  };
+
   useEffect(() => {
     // On component mount, check if user email is stored in local storage
     const storedEmail = localStorage.getItem("userEmail1");
@@ -107,8 +117,6 @@ export default function Login() {
   return (
     <>
       <>
-        {/* <h1>{myname}</h1> */}
-        {/* <ProductList /> */}
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           {loading && <Loader></Loader>}
 
@@ -178,33 +186,49 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div className="mt-2">
+                <div className="mt-2 relative">
                   <input
                     id="password"
                     {...register("password", {
                       required: "Password is required",
                       pattern: {
                         value:
-                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                        message: `- at least 8 characters
-                        - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
-                        - Can contain special characters`,
+                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?\/\\-]).{8,}$/,
+                        message: ` 8 characters,1 uppercase,1 lowercase,1 number, special characters`,
                       },
                     })}
-                    type="password"
+                    type={open === false ? "password" : "text"}
                     required
+                    value={passwordInput}
+                    onChange={handlePasswordChange}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+
+                  {/* //togglepassword */}
+                  {passwordInput && (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      <div className="text-xl">
+                        {open === false ? (
+                          <FaLock onClick={toggle} />
+                        ) : (
+                          <FaLockOpen onClick={toggle} />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {errors.password && (
-                    <p className="text-red-500">{errors.password.message}</p>
+                    <p className="text-red-500 absolute top-full whitespace-nowrap overflow-hidden ">
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
               </div>
 
-              <div>
+              <div className="mt-2">
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center  rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
                 >
                   Login
                 </button>

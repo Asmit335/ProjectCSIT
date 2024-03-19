@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -14,6 +15,20 @@ export default function SignUp() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const [open, setOpen] = useState(false);
+  const toggle = () => {
+    setOpen(!open);
+  };
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const confirmtoggle = () => {
+    setConfirmOpen(!confirmOpen);
+  };
+
+  const [passwordInput, setPasswordInput] = useState("");
+
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState("");
 
   const onSubmit = async (data) => {
     const { email, password, confirm } = data; // Extract form data
@@ -62,6 +77,13 @@ export default function SignUp() {
     }
   };
 
+  // password tracking
+  const handlePasswordChange = (e) => {
+    setPasswordInput(e.target.value);
+  };
+  const confirmHandlePasswordChange = (e) => {
+    setConfirmPasswordInput(e.target.value);
+  };
   return (
     <>
       <>
@@ -129,30 +151,42 @@ export default function SignUp() {
                     </a>
                   </div>
                 </div>
-                <div className="mt-2">
+
+                <div className="mt-2 relative">
                   <input
                     id="password"
                     {...register("password", {
                       required: "Password is required",
                       pattern: {
                         value:
-                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                        message: `- at least 8 characters
-                        - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
-                        - Can contain special characters`,
-                        // message: [
-                        //   "- at least 8 characters\n",
-                        //   "- must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number\n",
-                        //   "- Can contain special characters",
-                        // ],
+                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?\/\\-]).{8,}$/,
+                        message: ` 8 characters,1 uppercase,1 lowercase,1 number, special characters`,
                       },
                     })}
-                    type="password"
+                    type={open === false ? "password" : "text"}
                     required
+                    value={passwordInput}
+                    onChange={handlePasswordChange}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+
+                  {/* //togglepassword */}
+                  {passwordInput && (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      <div className="text-xl">
+                        {open === false ? (
+                          <FaLock onClick={toggle} />
+                        ) : (
+                          <FaLockOpen onClick={toggle} />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {errors.password && (
-                    <p className="text-red-500">{errors.password.message}</p>
+                    <p className="text-red-500 absolute top-full whitespace-nowrap overflow-hidden ">
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
               </div>
@@ -173,20 +207,47 @@ export default function SignUp() {
                     </a>
                   </div>
                 </div>
-                <div className="mt-2">
+
+                <div className="mt-2 relative">
                   <input
                     id="confirm"
                     {...register("confirm", {
                       required: "Confirm the Password",
-                      validate: (value, formValues) =>
-                        value === formValues.password || "Password not Matched",
+                      pattern: {
+                        value:
+                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?\/\\-]).{8,}$/,
+                        message: "Password must meet the specified criteria",
+                      },
+                      validate: {
+                        matchesPassword: (value, formValues) =>
+                          value === formValues.password ||
+                          "Password not Matched",
+                      },
                     })}
-                    type="password"
+                    type={confirmOpen === false ? "password" : "text"}
                     required
+                    value={confirmPasswordInput}
+                    onChange={confirmHandlePasswordChange}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  {errors.confirm && (
-                    <p className="text-red-500">{errors.confirm.message}</p>
+
+                  {/* //togglepassword */}
+                  {passwordInput && (
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      <div className="text-xl">
+                        {confirmOpen === false ? (
+                          <FaLock onClick={confirmtoggle} />
+                        ) : (
+                          <FaLockOpen onClick={confirmtoggle} />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {errors.password && (
+                    <p className="text-red-500 absolute top-full whitespace-nowrap overflow-hidden ">
+                      {errors.confirm.message}
+                    </p>
                   )}
                 </div>
               </div>
