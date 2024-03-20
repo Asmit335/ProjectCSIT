@@ -94,7 +94,7 @@ export default function Navbar() {
                 "asmitkhanal335@gmail.com" && (
                 <Link to="/order">
                   <li className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
-                    Order
+                    {/* Order */}
                   </li>
                 </Link>
               )}

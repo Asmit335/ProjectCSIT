@@ -60,7 +60,7 @@ router.get('/getproduct', async(req, res) => {
 
 router.post('/removeproduct', async(req, res) => {
     try {
-        // Remove the product based on its _id
+        // Remove the product based on its title as a id(unique identifier)
         await Product.findOneAndDelete({ title: req.body.title });
 
         console.log('Product removed');

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import axios from "axios";
 const Product = () => {
   const [data, setData] = useState([]); //fakestore
   const [products, setProducts] = useState([]); //admin product
@@ -41,6 +42,30 @@ const Product = () => {
   const filterProduct = (cat) => {
     const updatedList = data.concat(products).filter((x) => x.category === cat);
     setFilter(updatedList);
+  };
+
+  const handleBuy = async (product) => {
+    console.log("buy clicked", product);
+    const payload = {
+      return_url: "http://localhost:5173/success",
+      website_url: "http://localhost:5173/",
+      amount: product.price * 100,
+      purchase_order_id: product.id,
+      purchase_order_name: product.title,
+      customer_info: {
+        name: "Khalti Bahadur",
+        email: "example@gmail.com",
+        phone: "9800000123",
+      },
+    };
+    const response = await axios.post("http://localhost:3000/khalti", payload);
+    // Redirect the user to the website_url
+
+    console.log("khalti response:", response);
+    console.log("payment url:", `${response?.data?.data?.payment_url}`);
+    if (response) {
+      window.location.href = `${response?.data?.data?.payment_url}`;
+    }
   };
 
   return (
@@ -92,18 +117,22 @@ const Product = () => {
 
           <div className="flex flex-wrap -m-4">
             {filter.map((product) => (
-              <Link
+              <div
                 key={product.id}
-                to={`/products/${product.id}`}
                 className="lg:w-1/4 md:w-1/2 p-4 w-full border border-opacity-50"
               >
-                <div className="block relative h-48 rounded overflow-hidden">
-                  <img
-                    alt={product.title}
-                    className="object-contain w-full h-full block transition duration-300 ease-in-out transform hover:scale-105 group-hover:opacity-75 cursor-pointer"
-                    src={product.image}
-                  />
-                </div>
+                <Link
+                  to={`/products/${product.id}`}
+                  className="block relative h-48 rounded overflow-hidden"
+                >
+                  <a>
+                    <img
+                      alt="ecommerce"
+                      className="object-contain w-full h-full block transition duration-300 ease-in-out transform hover:scale-105 group-hover:opacity-75 cursor-pointer"
+                      src={product.image}
+                    />
+                  </a>
+                </Link>
                 <div className="mt-4 text-center">
                   <h3 className="text-gray-500 uppercase text-xs tracking-widest title-font mb-1">
                     {product.category}
@@ -114,12 +143,12 @@ const Product = () => {
                   <p className="mt-1 font-bold text-black">${product.price}</p>
                   <button
                     className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    onClick={() => console.log("clicked the buy btn")}
+                    onClick={() => handleBuy(product)}
                   >
                     Buy Now
                   </button>
                 </div>
-              </Link>
+              </div>
             ))}
 
             {products.map((product) => (
@@ -149,7 +178,7 @@ const Product = () => {
                   <p className="mt-1 font-bold text-black">${product.price}</p>
                   <button
                     className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    // onClick={() => handleBuy(product)}
+                    onClick={() => handleBuy(product)}
                   >
                     Buy Now
                   </button>

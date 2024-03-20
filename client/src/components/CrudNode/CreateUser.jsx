@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -11,6 +11,8 @@ const CreateUser = () => {
   const changeHandler = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ const CreateUser = () => {
         const responseData = await response.json();
         console.log("User created:", responseData);
 
+        navigate("/user");
         // Reset the user state
         setUser({
           name: "",

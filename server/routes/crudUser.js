@@ -20,4 +20,23 @@ router.post("/createUser", async(req, res) => {
     }
 });
 
+router.get("/getCrudata", async(req, res) => {
+    const curdData = await CrudUserModel.find({})
+    res.status(200).json(curdData)
+})
+
+
+router.post("/removecrud", async(req, res) => {
+
+    const removeCrudData = await CrudUserModel.findOneAndDelete({ email: req.body.email })
+    console.log("removed crud Data.");
+
+    res.json({
+        success: true,
+        message: "removed crud DAta",
+        removedId: removeCrudData._id
+
+    })
+})
+
 export { router as Crudrouter }

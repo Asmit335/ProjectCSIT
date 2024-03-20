@@ -1,19 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const User = () => {
-  const [users, setUsers] = useState([
-    {
-      Name: "Asmit",
-      Email: "ak@gmail.com",
-      Age: 20,
-    },
-    {
-      Name: "Ashish",
-      Email: "ashish@gmail.com",
-      Age: 25,
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/getCrudata");
+
+      if (response.ok) {
+        const data = await response.json(); // Extract JSON data from response
+        setUsers(data); // Update state with fetched data
+      } else {
+        console.log("Failed to fetch Data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const removeCrudDAta = async (uniq) => {
+    try {
+      await fetch("http://localhost:3000/removeproduct", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: uniq }), // This is where { id: productId } is used
+      });
+      await fetchData();
+    } catch (error) {
+      console.error("Error removing data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -43,31 +67,36 @@ const User = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {users.map((user, index) => (
-                  <tr key={index}>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {user.Name}
-                    </td>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {user.Email}
-                    </td>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {user.Age}
-                    </td>
-                    <td className="border border-gray-500 px-4 py-2 flex justify-center items-center space-x-4">
-                      <Link
-                        to="/update"
-                        className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-                      >
-                        Update
-                      </Link>
-                      <button className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              <tbody className="">
+                {users.map((user, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className="border border-gray-700 px-4 py-2">
+                        {user.name}
+                      </td>
+                      <td className="border border-gray-700 px-4 py-2">
+                        {user.email}
+                      </td>
+                      <td className="border border-gray-700 px-4 py-2">
+                        {user.age}
+                      </td>
+                      <td className="border border-gray-500 px-4 py-2 flex justify-center items-center space-x-4">
+                        <Link
+                          to="/update"
+                          className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        >
+                          Update
+                        </Link>
+                        <button
+                          className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                          onClick={() => removeCrudDAta(user.email)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
