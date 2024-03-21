@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
-
+import { toast } from "react-toastify";
 function ForgetPass() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -34,6 +34,10 @@ function ForgetPass() {
       try {
         responseData = JSON.parse(responseDataText);
         console.log(" response data:", responseData);
+
+        if (responseData.message === "User not found") {
+          throw new Error("User not found");
+        }
       } catch (error) {
         console.error("Error parsing JSON response:", error);
         console.log(" response data:", responseData);
@@ -51,6 +55,7 @@ function ForgetPass() {
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Please enter registered Email.");
     } finally {
       setTimeout(() => {
         setShowColorRing(false);

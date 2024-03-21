@@ -58,7 +58,7 @@ const App = () => {
 
           <Route path="/user" element={<User />} />
           <Route path="/create" element={<CreateUser />} />
-          <Route path="/update" element={<UpdateUser />} />
+          <Route path="/update/:id" element={<UpdateUser />} />
 
           <Route path="/reset" element={<ResetPass />} />
           <Route path="/success" element={<Success />} />

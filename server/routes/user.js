@@ -89,6 +89,13 @@ router.post("/login", async(req, res) => {
 router.post("/forgetpass", async(req, res) => {
     const { email } = req.body;
 
+    //verify registered user
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
+    }
+
     // Generate JWT token
     const token = jwt.sign({ email }, process.env.KEY, { expiresIn: '1h' });
     if (!token) {

@@ -19,19 +19,27 @@ const User = () => {
     }
   };
 
-  const removeCrudDAta = async (uniq) => {
-    try {
-      await fetch("http://localhost:3000/removeproduct", {
-        method: "POST",
+  const removeCrudData = (email, name) => {
+    console.log("delete button");
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      fetch(`http://localhost:3000/removecrud/${email}`, {
+        method: "DELETE",
         headers: {
-          Accept: "application/json",
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify({ email: uniq }), // This is where { id: productId } is used
-      });
-      await fetchData();
-    } catch (error) {
-      console.error("Error removing data:", error);
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Deleted crud data");
+          fetchData();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Failed to remove.");
+        });
+    } else {
+      console.log("Deletion cancelled.");
     }
   };
 
@@ -67,11 +75,11 @@ const User = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="">
+              <tbody className="text-center">
                 {users.map((user, index) => {
                   return (
                     <tr key={index}>
-                      <td className="border border-gray-700 px-4 py-2">
+                      <td className="border border-gray-700 px-4 py-2 capitalize">
                         {user.name}
                       </td>
                       <td className="border border-gray-700 px-4 py-2">
@@ -82,14 +90,14 @@ const User = () => {
                       </td>
                       <td className="border border-gray-500 px-4 py-2 flex justify-center items-center space-x-4">
                         <Link
-                          to="/update"
+                          to={`/update/${user._id}`}
                           className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                         >
                           Update
                         </Link>
                         <button
                           className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                          onClick={() => removeCrudDAta(user.email)}
+                          onClick={() => removeCrudData(user.email, user.name)}
                         >
                           Delete
                         </button>

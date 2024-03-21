@@ -21,6 +21,16 @@ const AddProduct = () => {
   };
 
   const Add_product = async () => {
+    if (
+      !productDetail.title ||
+      !productDetail.price ||
+      !productDetail.category ||
+      !image
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     try {
       // Prepare FormData with product image
       const formData = new FormData();
